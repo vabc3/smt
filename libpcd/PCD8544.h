@@ -84,4 +84,3 @@ Lesser General Public License for more details.
  void LCDspiwrite(uint8_t c);
  void shiftOut(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder, uint8_t val);
  void _delay_ms(uint32_t t);
- void Loadbuf(const uint8_t pi_logo []);

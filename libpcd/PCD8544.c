@@ -851,13 +851,3 @@ void _delay_ms(uint32_t t)
 		t--;
 	}
 }
-
-void LoadBuf(const uint8_t pi_logo [])
-{
-	uint32_t i;
-	for (i = 0; i < LCDWIDTH * LCDHEIGHT / 8; i++  )
-	{
-		pcd8544_buffer[i] = pi_logo[i];
-	}
-	LCDdisplay();
-}

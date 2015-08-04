@@ -1,6 +1,6 @@
 TARGETS	= run
 CC		= armv6j-hardfloat-linux-gnueabi-gcc
-CFLAGS	= -Ilibpcd
+CFLAGS	= -Ilibpcd -Wall
 LDFLAGS	= -lpthread
 # precompiled static lib
 LIBWP	= ../wiringPi/wiringPi/libwiringPi.a
@@ -20,7 +20,7 @@ deploy  : all
 test	: deploy
 	ssh $(TM) deploy/run
 
-run     : run.o PCD8544.o $(LIBWP)
+run     : run.o pipcd.o PCD8544.o $(LIBWP)
 
 PCD8544.o : libpcd/PCD8544.c
 	$(CC) $(CFLAGS) -c $< -o $@ 
