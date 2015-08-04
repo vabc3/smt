@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include "wiringPi.h"
 #include "PCD8544.h"
+#include "pipcd.h"
 
 // pin setup
 static int sclk 	= 0;
@@ -41,7 +42,23 @@ void PipcdShow(const uint8_t data[]){
 	{
 		pcd8544_buffer[i] = data[i];
 	}
+}
+
+void PipcdDraw(const uint8_t data[]){
+	uint8_t i,j;
+	for(i=0;i<2;i++){
+		for(j=0;j<16;j++){
+			int p2 = i*16 + j;
+			int p1 = p2 + i * (84-16);
+			
+			pcd8544_buffer[p1] = data[p2];
+		}
+	}
 	
+	PipcdRefresh();
+}
+
+void PipcdRefresh(){
 	LCDdisplay();
 }
 

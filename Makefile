@@ -1,4 +1,4 @@
-TARGETS		= img logo
+TARGETS		= img logo text
 CC			= armv6j-hardfloat-linux-gnueabi-gcc
 CFLAGS		= -Ilibpcd -Wall
 LDFLAGS		= -lpthread
@@ -6,7 +6,7 @@ LDFLAGS		= -lpthread
 LIBWP		= ../wiringPi/wiringPi/libwiringPi.a
 # target machine location
 TARGETHOST	= root@pi
-TESTTARGET	= img
+TESTTARGET	= text
 
 .PHONY : all clean deploy $(LIBWP)
 
@@ -21,7 +21,9 @@ deploy  : all
 test	: deploy
 	ssh $(TARGETHOST) deploy/$(TESTTARGET)
 
-img 	: img.o pipcd.o PCD8544.o img.o $(LIBWP)
+img 	: img.o pipcd.o PCD8544.o $(LIBWP)
+
+text	: text.o pipcd.o PCD8544.o $(LIBWP)
 
 PCD8544.o : libpcd/PCD8544.c
 	$(CC) $(CFLAGS) -c $< -o $@ 
