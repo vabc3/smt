@@ -1,11 +1,12 @@
-TARGETS	= run
-CC		= armv6j-hardfloat-linux-gnueabi-gcc
-CFLAGS	= -Ilibpcd -Wall
-LDFLAGS	= -lpthread
+TARGETS		= img logo
+CC			= armv6j-hardfloat-linux-gnueabi-gcc
+CFLAGS		= -Ilibpcd -Wall
+LDFLAGS		= -lpthread
 # precompiled static lib
-LIBWP	= ../wiringPi/wiringPi/libwiringPi.a
+LIBWP		= ../wiringPi/wiringPi/libwiringPi.a
 # target machine location
-TM		= root@pi
+TARGETHOST	= root@pi
+TESTTARGET	= img
 
 .PHONY : all clean deploy $(LIBWP)
 
@@ -15,12 +16,12 @@ clean   :
 	rm -rf $(TARGETS) *.o *~
 
 deploy  : all
-	scp $(TARGETS) $(TM):deploy/
+	scp $(TESTTARGET) $(TARGETHOST):deploy/
 
 test	: deploy
-	ssh $(TM) deploy/run
+	ssh $(TARGETHOST) deploy/$(TESTTARGET)
 
-run     : run.o pipcd.o PCD8544.o $(LIBWP)
+img 	: img.o pipcd.o PCD8544.o img.o $(LIBWP)
 
 PCD8544.o : libpcd/PCD8544.c
 	$(CC) $(CFLAGS) -c $< -o $@ 

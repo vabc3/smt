@@ -47,7 +47,6 @@ void PipcdShow(const uint8_t data[]){
 
 void PipcdClear()
 {
-	delay(1000);
 	LCDclear();
 	LCDdisplay();
 }
