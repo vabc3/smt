@@ -13,6 +13,7 @@
 #include "wiringPi.h"
 #include "PCD8544.h"
 #include "pipcd.h"
+#include "font.c"
 
 // pin setup
 static int sclk 	= 0;
@@ -23,6 +24,7 @@ static int rst 		= 4;
 static int contrast = 45;
 
 extern uint8_t pcd8544_buffer[];
+static inline int char_get_uni(const char *a);
 
 int PipcdInit(){
 	// check wiringPi setup
@@ -44,18 +46,18 @@ void PipcdShow(const uint8_t data[]){
 	}
 }
 
-void PipcdDraw(const uint8_t data[]){
+// 84 , 48  16 x 16 -> 5 x 3
+
+void PipcdDraw(const uint8_t data[], int x, int y){
 	uint8_t i,j;
 	for(i=0;i<2;i++){
 		for(j=0;j<16;j++){
 			int p2 = i*16 + j;
 			int p1 = p2 + i * (84-16);
-			
+			p1 += 16 * x + 84 * 2 * y;
 			pcd8544_buffer[p1] = data[p2];
 		}
 	}
-	
-	PipcdRefresh();
 }
 
 void PipcdRefresh(){
@@ -73,3 +75,31 @@ void PipcdLine(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1){
 	PipcdRefresh();
 }
 
+static inline int char_get_uni(const char *a) {
+	if ((*a) & 0x80)
+		return ((((*a << 4) & 0xf0) | (*(a + 1) >> 2 & 0x0f)) << 8)
+			| (((*(a + 1) << 6) & 0xc0) | (*(a + 2) & 0x3f));
+	else
+		return (*a);
+}
+
+void PipcdDrawChar(const char* ch, int x, int y){
+	PipcdDraw(font+char_get_uni(ch)*32, x, y);
+	PipcdRefresh();
+}
+
+
+void PipcdDrawString(const char* ch){
+	LCDclear();
+	char* p = ch;
+	int idx = 0;
+	while(*p && idx < 15){
+		//printf("p=%d,idx=%d\n",p,idx);
+		PipcdDrawChar(p,  idx % 5, idx / 5);
+		if((*p)&0x80)p+=2;
+		idx++;p++;
+	}
+	
+	PipcdRefresh();
+	printf("Done\n");
+}

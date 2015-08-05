@@ -1,11 +1,15 @@
+#include <stdio.h>
 #include "pipcd.h"
-#include "font.c"
 
 int main(){
 	PipcdInit();
+	setbuf(stdout, NULL);
 	
-	PipcdDraw(font+0x597d*32);
-	PipcdRefresh();
+	char dat[255];
+	
+	while(fgets(dat,255,stdin)){
+		PipcdDrawString(dat);
+	}	
 	
 	return 0;
 }
