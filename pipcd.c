@@ -67,3 +67,9 @@ void PipcdClear()
 	LCDclear();
 	LCDdisplay();
 }
+
+void PipcdLine(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1){
+	LCDdrawline(x0, y0, x1, y1, 1);
+	PipcdRefresh();
+}
+

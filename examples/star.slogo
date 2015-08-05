@@ -1,0 +1,15 @@
+# Simple LOGO - Draw a star
+u
+r -90
+f 20
+r 180
+d
+f 40
+r 144
+f 40
+r 144
+f 40
+r 144
+f 40
+r 144
+f 40
