@@ -1,12 +1,12 @@
 # Simple LOGO - Draw a star
-u
-r -90
-f 20
-r 180
-d
-f 40
-r 144
-f 40
+u		# Pen Up
+r -90	# Rotate -90 degree
+f 20	# Forward
+r 180	# Rotate 180 degree
+d		# Pen Down
+f 40	# Forward 40, side length
+r 144	# Rotate 144 degree, intersection angle
+f 40	# Repeat 4 times
 r 144
 f 40
 r 144
