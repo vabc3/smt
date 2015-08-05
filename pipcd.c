@@ -23,8 +23,8 @@ static int cs 		= 3;
 static int rst 		= 4;
 static int contrast = 45;
 
+static int char_get_uni(const char *a);
 extern uint8_t pcd8544_buffer[];
-static inline int char_get_uni(const char *a);
 
 int PipcdInit(){
 	// check wiringPi setup
@@ -44,10 +44,11 @@ void PipcdShow(const uint8_t data[]){
 	{
 		pcd8544_buffer[i] = data[i];
 	}
+	
+	PipcdRefresh();
 }
 
 // 84 , 48  16 x 16 -> 5 x 3
-
 void PipcdDraw(const uint8_t data[], int x, int y){
 	uint8_t i,j;
 	for(i=0;i<2;i++){
@@ -91,7 +92,7 @@ void PipcdDrawChar(const char* ch, int x, int y){
 
 void PipcdDrawString(const char* ch){
 	LCDclear();
-	char* p = ch;
+	const char* p = ch;
 	int idx = 0;
 	while(*p && idx < 15){
 		//printf("p=%d,idx=%d\n",p,idx);

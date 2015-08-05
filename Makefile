@@ -6,7 +6,7 @@ LDFLAGS		= -lpthread -lm
 LIBWP		= ../wiringPi/wiringPi/libwiringPi.a
 # target machine location
 TARGETHOST	= root@pi
-TESTTARGET	= text
+TESTTARGET	= img
 
 .PHONY : all clean deploy $(LIBWP)
 
